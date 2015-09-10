@@ -1,0 +1,22 @@
+
+<%= form_for(@sign) do |f| %>
+  <% if @sign.errors.any? %>
+    <div id="error_explanation">
+      <h1><%= pluralize(@sign.errors.count, "error") %> prohibited this sign from being saved:</h1>
+
+      <ul>
+      <% @sign.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :description %><br>
+    <%= f.text_field :description %>
+  </div>
+  <div class="form-group">
+    <%= f.submit class: "btn btn-primary" %>
+  </div>
+<% end %>
