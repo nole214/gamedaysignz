@@ -4,6 +4,7 @@
   <strong>Description:</strong>
   <%= @sign.description %>
 </p>
-
-<%= link_to 'Edit', edit_sign_path(@sign) %> |
+<% if @sign_user == current_user %>
+	<%= link_to 'Edit', edit_sign_path(@sign) %> 
+<% end %>
 <%= link_to 'Back', signs_path %>

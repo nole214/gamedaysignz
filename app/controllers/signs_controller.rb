@@ -1,5 +1,7 @@
 class SignsController < ApplicationController
   before_action :set_sign, only: [:show, :edit, :update, :destroy]
+  before_action :correct_user, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index, :show]
 
   
   def index
@@ -12,7 +14,7 @@ class SignsController < ApplicationController
 
   
   def new
-    @sign = Sign.new
+    @sign = current_user.signs.build
   end
 
   
@@ -21,7 +23,7 @@ class SignsController < ApplicationController
 
   
   def create
-    @sign = Sign.new(sign_params)
+    @sign = current_user.signs.build(sign_params)
       if @sign.save
         redirect_to @sign, notice: 'Sign was successfully created.' 
       else
@@ -50,6 +52,12 @@ class SignsController < ApplicationController
     def set_sign
       @sign = Sign.find(params[:id])
     end
+
+    def correct_user
+      @sign = current_user.signs.find_by(id: params[:id])
+      redirect_to signs_path, notice: "This ain't yo sign fool" if @sign.nil?
+    end
+
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def sign_params
